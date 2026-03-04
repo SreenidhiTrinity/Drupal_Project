@@ -1,0 +1,15 @@
+{
+  "name": "mbsc_tailwind",
+  "private": true,
+  "scripts": {
+    "livereload": "livereload --exclusions node_modules/ --exts 'css,js,twig,theme,apng,avif,gif,jpg,jpeg,jfif,pjpeg,pjp,png,svg,webp'",
+    "dev": "tailwindcss -i ./src/style.css -o ./css/style.css --watch",
+    "build": "tailwindcss -i ./src/style.css -o ./css/style.css --minify"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.27",
+    "livereload": "^0.9.3",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^3.4.19"
+  }
+}

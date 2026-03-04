@@ -1,0 +1,8 @@
+# Schema for the configuration files of the mbsc_tailwind theme.
+mbsc_tailwind.settings:
+  type: theme_settings
+  label: 'mbsc_tailwind settings'
+  mapping:
+    example:
+      type: string
+      label: Example
