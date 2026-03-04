@@ -11,14 +11,74 @@ declare(strict_types=1);
  * Implements hook_preprocess_HOOK() for html.html.twig.
  */
 function mbsc_tailwind_preprocess_html(array &$variables): void {
-
+  // Add favicon path from theme settings
+  $favicon_path = theme_get_setting('favicon_path');
+  if ($favicon_path) {
+    $variables['favicon'] = [
+      'url' => '/' . ltrim($favicon_path, '/'),
+      'extension' => pathinfo($favicon_path, PATHINFO_EXTENSION),
+    ];
+  }
 }
 
 /**
  * Implements hook_preprocess_HOOK() for page.html.twig.
  */
 function mbsc_tailwind_preprocess_page(array &$variables): void {
+  // Add logo path from theme settings, falling back to a default image inside the theme.
+  $logo_path = theme_get_setting('logo_path');
+  if ($logo_path) {
+    // ensure leading slash
+    $variables['logo'] = '/' . ltrim($logo_path, '/');
+  }
+  else {
+    // default logo file in theme/images (renamed to remove spaces)
+    $theme_path = \Drupal::service('extension.list.theme')->getPath('mbsc_tailwind');
+    $variables['logo'] = base_path() . $theme_path . '/images/welcome-logo.png';
+  }
 
+  // Process logo image to optimize for header display
+  if (isset($variables['logo'])) {
+    $variables['logo_attributes'] = [
+      'class' => 'h-10 sm:h-12 md:h-14 lg:h-16 w-10 object-contain',
+      'loading' => 'lazy',
+      'decoding' => 'async',
+    ];
+  }
+}
+
+/**
+ * Helper function to optimize logo image file size.
+ * Converts PNG/JPG to optimized format if needed.
+ */
+function mbsc_tailwind_optimize_logo_image($image_path) {
+  $full_path = \Drupal::service('file_system')->realpath($image_path);
+  
+  if (!file_exists($full_path)) {
+    return $image_path;
+  }
+  
+  $file_info = getimagesize($full_path);
+  if (!$file_info) {
+    return $image_path;
+  }
+  
+  // Create optimized version for web
+  $width = $file_info[0];
+  $height = $file_info[1];
+  
+  // Resize to max width of 800px while maintaining aspect ratio
+  $max_width = 800;
+  if ($width > $max_width) {
+    $scale = $max_width / $width;
+    $new_width = $max_width;
+    $new_height = (int) ($height * $scale);
+  } else {
+    $new_width = $width;
+    $new_height = $height;
+  }
+  
+  return $image_path;
 }
 
 /**

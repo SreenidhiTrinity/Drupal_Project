@@ -1,0 +1,13 @@
+<ul class="flex space-x-6 sm:space-x-8 text-brandblue">
+  {% for item in items %}
+    <li class="relative">
+      <a href="{{ item.url }}"
+         class="text-brandblue hover:text-blue-600 transition uppercase tracking-wide px-1 py-2">
+        {{ item.title }}
+      </a>
+      {% if item.in_active_trail %}
+        <span class="absolute left-0 -bottom-1 w-full h-0.5 bg-red-500"></span>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>

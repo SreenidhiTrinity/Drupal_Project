@@ -1,0 +1,50 @@
+<header class="bg-white border-b w-full">
+  <div class="w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      {# TOP ROW: Logo + Navigation + Search #}
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-2 sm:py-3 md:py-4">
+        
+        {# LEFT: Logo #}
+        <div class="flex-shrink-0">
+          <a href="{{ path('<front>') }}" class="flex items-center">
+            {% if logo %}
+              <img src="{{ logo }}" alt="Welcome to Mohammad" class="h-12 sm:h-16 md:h-20 w-auto object-contain" loading="lazy" decoding="async">
+            {% else %}
+              <img src="{{ base_path ~ directory }}/images/welcome-logo.png" alt="Welcome to Mohammad" class="h-12 sm:h-16 md:h-20 w-auto object-contain" loading="lazy" decoding="async">
+            {% endif %}
+          </a>
+        </div>
+
+        {# CENTER: Navigation #}
+        <nav class="hidden md:flex items-center justify-center space-x-4 lg:space-x-6 font-medium flex-1">
+          {{ page.primary_menu }}
+        </nav>
+
+        {# RIGHT: Search #}
+        <form method="get" action="{{ path('search.view') }}" class="w-full sm:w-auto">
+          <div class="relative w-full sm:w-48">
+            <span class="absolute inset-y-0 left-3 flex items-center text-brandblue pointer-events-none">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"/>
+              </svg>
+            </span>
+            <input 
+              type="text"
+              name="keys"
+              placeholder="Search"
+              class="w-full h-10 sm:h-12 bg-gray-200 rounded-lg pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-brandblue transition duration-200"
+              required
+            >
+          </div>
+        </form>
+      </div>
+
+      {# MOBILE: Navigation Menu #}
+      <nav class="md:hidden pb-3 flex items-center justify-center space-x-4 font-medium border-t">
+        {{ page.primary_menu }}
+      </nav>
+
+    </div>
+  </div>
+</header>
